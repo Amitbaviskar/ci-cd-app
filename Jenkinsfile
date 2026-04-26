@@ -47,19 +47,17 @@ pipeline {
         }
     }
 }
-
         stage('Deploy') {
-            steps {
-                sshagent(['vm-ssh']) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no root@136.112.66.220'
-                    docker pull $DOCKER_IMAGE:latest
-                    docker rm -f my-app || true
-                    docker run -d -p 3000:3000 --name my-app $DOCKER_IMAGE:latest
-                    '
-                    """
-                }
-            }
+    steps {
+        sshagent(['vm-ssh']) {
+            sh '''
+            ssh -o StrictHostKeyChecking=no root@136.112.66.220 "
+            docker pull amitbaviskar/ci-cd-app:latest &&
+            docker rm -f my-app || true &&
+            docker run -d -p 3000:3000 --name my-app amitbaviskar/ci-cd-app:latest
+            "
+            '''
         }
     }
 }
+        
