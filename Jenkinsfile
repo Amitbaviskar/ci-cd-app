@@ -41,7 +41,9 @@ pipeline {
         stage('Test SSH') {
     steps {
         sshagent(['vm-ssh']) {
-            sh 'ssh -o StrictHostKeyChecking=no root@136.112.66.220 "echo SUCCESS"'
+            sh '''
+            ssh -o StrictHostKeyChecking=no root@136.112.66.220 "echo SUCCESS"
+            '''
         }
     }
 }
